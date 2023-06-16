@@ -1,9 +1,56 @@
 # pcratch
 
-pcratchはscratchの派生のxcratchの派生なり
+pcratchはscratchの派生のxcratchの派生です
 
-テスト用Webサイト
-app.js
+## クローン
+```bash
+git clone --depth=1 https://github.com/pcratch/scratch-gui.git
+cd scratch-gui
+npm install
+```
+## ビルド＆実行
+```bash
+npm run build
+node app.js
+# open http://192.168.0.10:8333/
+```
+## リンク＆scratch-wwwビルド準備
+```bash
+cd scratch-gui
+BUILD_MODE=dist npm run build
+npm link
+cd ..
+cd scratch-www
+npm link scratch-gui
+```
+### 参考資料
+デスクトップ版 Scratch の拡張機能の開発環境の構築方法
+https://zenn.dev/kebhr/articles/1262a3b79b51c3
+
+https://scratchaddons.com/ja/
+
+https://microbit-more.github.io/
+
+### 変更点
+エクステンション一覧：src/lib/libraries/extensions/index.jsx
+プレインストール：src/lib/libraries/extensions/preinstall/index.js <== microbitmoreを追加
+### デフォルトプロジェクトのスプライト差替：
+src/lib/default-project/index.js
+src/lib/default-project/project-data.js
+Scratch Cat:
+bcf454acf82e4504149f7ffe07081dbc.svg
+0fb9be3e8397c983338cb71dc84d0b25.svg
+    =>
+Pcratch Cat:
+2b1d772be4b1941444dac7c4b7365818.svg
+e0b2a1aceb66ce60932dfee2b2d6fef5.svg
+### ロゴの差し替え：
+http://192.168.0.10:8601/static/assets/1e9652bec24bcaacf5285be19746a750.svg
+
+scratch-gui\src\components\menu-bar\menu-bar.jsx
+scratch-gui\src\components\stage-header\stage-header.jsx
+//import scratchLogo from './scratch-logo.svg';
+import scratchLogo from './pcratch-logo.svg';
 
 
 # scratch-gui

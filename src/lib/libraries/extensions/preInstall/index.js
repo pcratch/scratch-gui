@@ -1,5 +1,6 @@
 const importModules = [
     // import('./extension.mjs') // Example
+    import('./microbitMore.mjs') // microbit More
 ];
 
 /**

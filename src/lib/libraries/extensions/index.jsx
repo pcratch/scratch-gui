@@ -323,4 +323,5 @@ const extensions = [
 export default extensions;
 
 import extensionLoader from './extensionLoader/index.jsx';
-extensions.unshift(extensionLoader);
+//extensions.unshift(extensionLoader);
+extensions.push(extensionLoader);
