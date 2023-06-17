@@ -2109,6 +2109,50 @@
         "blocks": {}
     },
     {
+        "name": "Cat 3",
+        "tags": [
+            "cat",
+            "kitty",
+            "kitten",
+            "animals",
+            "mammal"
+        ],
+        "isStage": false,
+        "variables": {},
+        "costumes": [
+            {
+                "assetId": "2b1d772be4b1941444dac7c4b7365818",
+                "name": "cat-a",
+                "bitmapResolution": 1,
+                "md5ext": "2b1d772be4b1941444dac7c4b7365818.svg",
+                "dataFormat": "svg",
+                "rotationCenterX": 48,
+                "rotationCenterY": 50
+            },
+            {
+                "assetId": "e0b2a1aceb66ce60932dfee2b2d6fef5",
+                "name": "cat-b",
+                "bitmapResolution": 1,
+                "md5ext": "e0b2a1aceb66ce60932dfee2b2d6fef5.svg",
+                "dataFormat": "svg",
+                "rotationCenterX": 46,
+                "rotationCenterY": 53
+            }
+        ],
+        "sounds": [
+            {
+                "assetId": "83c36d806dc92327b9e7049a565c6bff",
+                "name": "Meow",
+                "dataFormat": "wav",
+                "format": "",
+                "rate": 44100,
+                "sampleCount": 37376,
+                "md5ext": "83c36d806dc92327b9e7049a565c6bff.wav"
+            }
+        ],
+        "blocks": {}
+    },
+    {
         "name": "Cat Flying",
         "tags": [
             "animals",
