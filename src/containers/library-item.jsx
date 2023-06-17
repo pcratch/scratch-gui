@@ -106,8 +106,9 @@ class LibraryItem extends React.PureComponent {
     render () {
         const iconMd5 = this.curIconMd5();
         const iconURL = iconMd5 ?
-            `https://assets.scratch.mit.edu/internalapi/asset/${iconMd5}/get/` :
-            this.props.iconRawURL;
+            //`https://assets.scratch.mit.edu/internalapi/asset/${iconMd5}/get/` :
+            `https://pcratch.j-code.org/ASSET_HOST/internalapi/asset/${iconMd5}/get/` :
+                this.props.iconRawURL;
         return (
             <LibraryItemComponent
                 bluetoothRequired={this.props.bluetoothRequired}

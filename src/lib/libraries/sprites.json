@@ -2122,7 +2122,7 @@
         "costumes": [
             {
                 "assetId": "2b1d772be4b1941444dac7c4b7365818",
-                "name": "cat-a",
+                "name": "Cat3-a",
                 "bitmapResolution": 1,
                 "md5ext": "2b1d772be4b1941444dac7c4b7365818.svg",
                 "dataFormat": "svg",
@@ -2131,7 +2131,7 @@
             },
             {
                 "assetId": "e0b2a1aceb66ce60932dfee2b2d6fef5",
-                "name": "cat-b",
+                "name": "Cat3-b",
                 "bitmapResolution": 1,
                 "md5ext": "e0b2a1aceb66ce60932dfee2b2d6fef5.svg",
                 "dataFormat": "svg",

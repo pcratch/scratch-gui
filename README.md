@@ -10,19 +10,24 @@ npm install
 ```
 ## ビルド＆実行
 ```bash
+cd ~/pcratch/scratch-gui
 npm run build
 node app.js
 # open http://192.168.0.10:8333/
 ```
 ## リンク＆scratch-wwwビルド準備
 ```bash
-cd scratch-gui
+cd ~/pcratch/scratch-gui
 BUILD_MODE=dist npm run build
+# linkは一度だけ設定すればよい
 npm link
 cd ..
 cd scratch-www
 npm link scratch-gui
 ```
+このようなエラーが出るが、動いてる
+ERROR in unable to locate '/home/koichii/pcratch/scratch-gui/node_modules/scratch-vm/dist/web/extension-worker.{js,js.map}' glob
+
 ### 参考資料
 デスクトップ版 Scratch の拡張機能の開発環境の構築方法
 https://zenn.dev/kebhr/articles/1262a3b79b51c3
@@ -45,12 +50,14 @@ Pcratch Cat:
 2b1d772be4b1941444dac7c4b7365818.svg
 e0b2a1aceb66ce60932dfee2b2d6fef5.svg
 ### ロゴの差し替え：
-http://192.168.0.10:8601/static/assets/1e9652bec24bcaacf5285be19746a750.svg
-
 scratch-gui\src\components\menu-bar\menu-bar.jsx
 scratch-gui\src\components\stage-header\stage-header.jsx
 //import scratchLogo from './scratch-logo.svg';
 import scratchLogo from './pcratch-logo.svg';
+# Cat3 を追加するために、サーバーの直呼びを変更
+    //`https://assets.scratch.mit.edu/internalapi/asset/${iconMd5}/get/` :
+        -->
+    `https://pcratch.j-code.org/ASSET_HOST/internalapi/asset/${iconMd5}/get/` :
 
 
 # scratch-gui
