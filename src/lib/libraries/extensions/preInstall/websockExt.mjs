@@ -41,7 +41,7 @@ var entry = {
     });
   },
   extensionId: 'websockExt',
-  extensionURL: 'https://githubAccount.github.io/xcx-my-extension/dist/websockExt.mjs',
+  extensionURL: 'https://pcratch.j-code.org/xcratch-extensions/websock-ext/dist/websockExt.mjs',
   collaborator: '',
   iconURL: img$2,
   insetIconURL: img$1,
