@@ -1,6 +1,6 @@
 const importModules = [
-    // import('./extension.mjs') // Example
-    import('./microbitMore.mjs') // microbit More
+    import('./websockExt.mjs'),     // Network Extension
+    import('./microbitMore.mjs')    // microbit More
 ];
 
 /**
