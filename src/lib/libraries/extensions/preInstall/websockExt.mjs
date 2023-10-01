@@ -3,18 +3,18 @@ var img$2 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAFzCAYAAADi5Xe0A
 var img$1 = "data:image/svg+xml,%3csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='152.06552' height='163.58806' viewBox='0%2c0%2c152.06552%2c163.58806'%3e%3cg transform='translate(-163.96724%2c-98.20597)'%3e%3cg data-paper-data='%7b%26quot%3bisPaintingLayer%26quot%3b:true%7d' fill-rule='nonzero' stroke='black' stroke-width='0.5' stroke-linecap='butt' stroke-linejoin='miter' stroke-miterlimit='10' stroke-dasharray='' stroke-dashoffset='0' style='mix-blend-mode: normal'%3e%3cpath d='M164.21724%2c261.54403v-163.08806h151.56552v163.08806z' fill='%23f7f7f7'/%3e%3cpath d='M189.82568%2c217.21608v-72.53493h102.84804v72.53493z' fill='white'/%3e%3cpath d='M213.6822%2c195.73702v-28.42734h12.18314v28.42734z' fill='%23b1b1b1'/%3e%3cpath d='M253.49118%2c196.09582v-28.42733h12.18314v28.42734z' fill='%23b1b1b1'/%3e%3c/g%3e%3c/g%3e%3c/svg%3e";
 
 var en$1 = {
-	"websockExt.entry.name": "Network Extension",
+	"websockExt.entry.name": "Network Extension(v0.1.0)",
 	"websockExt.entry.description": "Network communication"
 };
 var ja$1 = {
-	"websockExt.entry.name": "ネットワーク拡張",
+	"websockExt.entry.name": "ネットワーク拡張(v0.1.0)",
 	"websockExt.entry.description": "ネットワーク通信をします"
 };
 var translations$1 = {
 	en: en$1,
 	ja: ja$1,
 	"ja-Hira": {
-	"websockExt.entry.name": "ネットワークかくちょう",
+	"websockExt.entry.name": "ネットワークかくちょう(v0.1.0)",
 	"websockExt.entry.description": "ネットワークつうしんをします"
 }
 };
@@ -1076,9 +1076,9 @@ var en = {
 	"websock.from": "From address",
 	"websock.state": "Ready state",
 	"websock.closed": "Connection closed!",
-	webapi_call: "Web API call [URL]",
-	json_parse: "JSON parse [JSON] [KEY]",
-	json_stringify: "JSON stringfy [JSON] [KEY] [VALUE]"
+	webapi_call: "HTTP GET [URL]",
+	json_parse: "JSON [JSON] parse [KEY]",
+	json_stringify: "JSON [JSON] + [KEY] [VALUE]"
 };
 var ja = {
 	"Websock.name": "ネットワーク拡張",
@@ -1092,9 +1092,9 @@ var ja = {
 	"websock.from": "差出人アドレス",
 	"websock.state": "準備状態",
 	"websock.closed": "接続が クローズしました！",
-	webapi_call: "Web API 呼出 [URL]",
-	json_parse: "JSON取出 [JSON] [KEY]",
-	json_stringify: "JSON追加 [JSON] [KEY] [VALUE]"
+	webapi_call: "HTTP GET [URL]",
+	json_parse: "JSON [JSON] 取出 [KEY]",
+	json_stringify: "JSON [JSON] + [KEY] [VALUE]"
 };
 var translations = {
 	en: en,
@@ -1107,13 +1107,13 @@ var translations = {
 	"websock.send": "[TEXT] をそうしん",
 	"websock.sendto": "[TEXT] を [SENDTO] に そうしん",
 	"websock.whenrecv": "じゅしん したとき",
-	"websock.recv": "じゅしんデータ",
+	"websock.recv": "じゅしん データ",
 	"websock.from": "さしだしにんアドレス",
 	"websock.state": "じゅんび じょうたい",
 	"websock.closed": "せつぞくが クローズしました！",
-	webapi_call: "Web API よびだし [URL]",
-	json_parse: "JSONとりだし [JSON] [KEY]",
-	json_stringify: "JSONついか [JSON] [KEY] [VALUE]"
+	webapi_call: "HTTP GET [URL]",
+	json_parse: "JSON [JSON] とりだし [KEY]",
+	json_stringify: "JSON [JSON] + [KEY] [VALUE]"
 }
 };
 
@@ -1218,6 +1218,7 @@ var ExtensionBlocks = /*#__PURE__*/function () {
               _this.socket.send(JSON.stringify({
                 MSGTYPE: "KEEPALIVE"
               }));
+              console.log("KEEPALIVE!");
             }
           } catch (error) {
             console.log(error);
@@ -1427,7 +1428,7 @@ var ExtensionBlocks = /*#__PURE__*/function () {
     key: "webapi_call",
     value: function () {
       var _webapi_call = _asyncToGenerator( /*#__PURE__*/regenerator.mark(function _callee(args) {
-        var url, response, json, s;
+        var url, response, s;
         return regenerator.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -1439,23 +1440,21 @@ var ExtensionBlocks = /*#__PURE__*/function () {
               case 4:
                 response = _context.sent;
                 _context.next = 7;
-                return response.json();
+                return response.text();
               case 7:
-                json = _context.sent;
-                //console.log("webapi_call1:", json)
-                s = JSON.stringify(json); //console.log("webapi_call2:", s)
-                return _context.abrupt("return", s);
-              case 12:
-                _context.prev = 12;
+                s = _context.sent;
+                return _context.abrupt("return", "" + s);
+              case 11:
+                _context.prev = 11;
                 _context.t0 = _context["catch"](0);
                 console.log(_context.t0);
                 return _context.abrupt("return", "{}");
-              case 16:
+              case 15:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 12]]);
+        }, _callee, null, [[0, 11]]);
       }));
       function webapi_call(_x) {
         return _webapi_call.apply(this, arguments);
@@ -1479,7 +1478,8 @@ var ExtensionBlocks = /*#__PURE__*/function () {
           j[key] = value;
         }
         //console.log("json_stringify:", j)
-        return JSON.stringify(j);
+        var s = JSON.stringify(j);
+        return "" + s;
       } catch (err) {
         console.log(err);
         return "{}";
@@ -1539,7 +1539,50 @@ var ExtensionBlocks = /*#__PURE__*/function () {
         extensionURL: ExtensionBlocks.extensionURL,
         blockIconURI: img,
         showStatusButton: false,
-        blocks: [{
+        blocks: [
+        /*
+                        {
+                            // socket listen
+                            opcode: "websockListen",
+                            text: formatMessage({
+                                id: "websock.listen",
+                                default: "サーバー開始 サーバー名 [SERVER] ポート [PORT]",
+                                description: "サーバーを開始し受信を待機します"
+                            }),
+                            blockType: BlockType.COMMAND,
+                            arguments: {
+                                SERVER: {
+                                    type: ArgumentType.STRING,
+                                    defaultValue: "server"
+                                },
+                                PORT: {
+                                    type: ArgumentType.STRING,
+                                    defaultValue: "80"
+                                }
+                            }
+                        },
+                        {
+                            // socket connect
+                            opcode: "websockConnect",
+                            text: formatMessage({
+                                id: "websock.connect",
+                                default: "接続 サーバー名 [SERVER] ポート [PORT]",
+                                description: "サーバーに接続します"
+                            }),
+                            blockType: BlockType.COMMAND,
+                            arguments: {
+                                SERVER: {
+                                    type: ArgumentType.STRING,
+                                    defaultValue: "server"
+                                },
+                                PORT: {
+                                    type: ArgumentType.STRING,
+                                    defaultValue: "80"
+                                }
+                            }
+                        },
+        */
+        {
           // socket bind
           opcode: "websockBind",
           text: formatMessage({
@@ -1552,44 +1595,6 @@ var ExtensionBlocks = /*#__PURE__*/function () {
             PORT: {
               type: argumentType.STRING,
               defaultValue: "7"
-            }
-          }
-        }, {
-          // socket listen
-          opcode: "websockListen",
-          text: formatMessage({
-            id: "websock.listen",
-            default: "サーバー開始 サーバー名 [SERVER] ポート [PORT]",
-            description: "サーバーを開始し受信を待機します"
-          }),
-          blockType: blockType.COMMAND,
-          arguments: {
-            SERVER: {
-              type: argumentType.STRING,
-              defaultValue: "server"
-            },
-            PORT: {
-              type: argumentType.STRING,
-              defaultValue: "80"
-            }
-          }
-        }, {
-          // socket connect
-          opcode: "websockConnect",
-          text: formatMessage({
-            id: "websock.connect",
-            default: "接続 サーバー名 [SERVER] ポート [PORT]",
-            description: "サーバーに接続します"
-          }),
-          blockType: blockType.COMMAND,
-          arguments: {
-            SERVER: {
-              type: argumentType.STRING,
-              defaultValue: "server"
-            },
-            PORT: {
-              type: argumentType.STRING,
-              defaultValue: "80"
             }
           }
         }, {
