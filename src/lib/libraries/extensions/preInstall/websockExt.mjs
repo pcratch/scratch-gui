@@ -3,18 +3,18 @@ var img$2 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAFzCAYAAADi5Xe0A
 var img$1 = "data:image/svg+xml,%3csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='152.06552' height='163.58806' viewBox='0%2c0%2c152.06552%2c163.58806'%3e%3cg transform='translate(-163.96724%2c-98.20597)'%3e%3cg data-paper-data='%7b%26quot%3bisPaintingLayer%26quot%3b:true%7d' fill-rule='nonzero' stroke='black' stroke-width='0.5' stroke-linecap='butt' stroke-linejoin='miter' stroke-miterlimit='10' stroke-dasharray='' stroke-dashoffset='0' style='mix-blend-mode: normal'%3e%3cpath d='M164.21724%2c261.54403v-163.08806h151.56552v163.08806z' fill='%23f7f7f7'/%3e%3cpath d='M189.82568%2c217.21608v-72.53493h102.84804v72.53493z' fill='white'/%3e%3cpath d='M213.6822%2c195.73702v-28.42734h12.18314v28.42734z' fill='%23b1b1b1'/%3e%3cpath d='M253.49118%2c196.09582v-28.42733h12.18314v28.42734z' fill='%23b1b1b1'/%3e%3c/g%3e%3c/g%3e%3c/svg%3e";
 
 var en$1 = {
-	"websockExt.entry.name": "Network Extension(v0.1.0)",
+	"websockExt.entry.name": "Network Extension(v0.1.2)",
 	"websockExt.entry.description": "Network communication"
 };
 var ja$1 = {
-	"websockExt.entry.name": "ネットワーク拡張(v0.1.0)",
+	"websockExt.entry.name": "ネットワーク拡張(v0.1.2)",
 	"websockExt.entry.description": "ネットワーク通信をします"
 };
 var translations$1 = {
 	en: en$1,
 	ja: ja$1,
 	"ja-Hira": {
-	"websockExt.entry.name": "ネットワークかくちょう(v0.1.0)",
+	"websockExt.entry.name": "ネットワークかくちょう(v0.1.2)",
 	"websockExt.entry.description": "ネットワークつうしんをします"
 }
 };
@@ -1065,6 +1065,7 @@ var Cast = /*#__PURE__*/function () {
 var cast = Cast;
 
 var en = {
+	send_too_much: "Connection terminated due to too much transmission!",
 	"Websock.name": "Network Extension",
 	"websock.bind": "Bind to port [PORT]",
 	"websock.listen": "[SERVER] is listening on port [PORT]",
@@ -1081,6 +1082,7 @@ var en = {
 	json_stringify: "JSON [JSON] + [KEY] [VALUE]"
 };
 var ja = {
+	send_too_much: "送信が過ぎなので、接続をクローズしました！",
 	"Websock.name": "ネットワーク拡張",
 	"websock.bind": "送受信 ポート [PORT]",
 	"websock.listen": "[SERVER] は ポート [PORT] で待ち受け",
@@ -1100,6 +1102,7 @@ var translations = {
 	en: en,
 	ja: ja,
 	"ja-Hira": {
+	send_too_much: "そうしんが おおすぎなので、せつぞくをクローズしました！",
 	"Websock.name": "ネットワークかくちょう",
 	"websock.bind": "そうじゅしん ポート [PORT]",
 	"websock.listen": "[SERVER] は ポート [PORT] で まちうけ",
@@ -1213,12 +1216,14 @@ var ExtensionBlocks = /*#__PURE__*/function () {
             var msg = JSON.parse(e.data);
             if (msg && msg.MSGTYPE == "MESSAGE") {
               _this.recvData.push(msg);
+              //console.log("message:", this.recvData.length)
             }
+
             if (msg && msg.MSGTYPE == "KEEPALIVE") {
               _this.socket.send(JSON.stringify({
                 MSGTYPE: "KEEPALIVE"
               }));
-              console.log("KEEPALIVE!");
+              console.log("KEEPALIVE!!");
             }
           } catch (error) {
             console.log(error);
@@ -1226,13 +1231,52 @@ var ExtensionBlocks = /*#__PURE__*/function () {
         });
       };
       // 送信待ちデータを全部送信
-      this.wsockAllSend = function () {
-        while (_this.sendData.length > 0 && _this.socket && _this.socket.readyState == 1) {
-          var msg = _this.sendData.shift();
-          _this.socket.send(msg);
-          //console.log("send:", this.sendData.length, msg)
-        }
-      };
+      this.wsockAllSend = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regenerator.mark(function _callee() {
+        var msg;
+        return regenerator.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!(_this.sendData.length > 0 && _this.socket && _this.socket.readyState == 1)) {
+                  _context.next = 19;
+                  break;
+                }
+                if (!(_this.socket.bufferedAmount == 0)) {
+                  _context.next = 7;
+                  break;
+                }
+                //console.log("wsockAllSend:", this.sendData.length, this.socket.bufferedAmount)
+                msg = _this.sendData.shift();
+                _this.socket.send(msg);
+                return _context.abrupt("return", 0);
+              case 7:
+                if (!(_this.sendData.length > 100)) {
+                  _context.next = 14;
+                  break;
+                }
+                console.log("buffer over 100!", _this.sendData.length, _this.socket.bufferedAmount);
+                _this.socket.close();
+                alert(formatMessage({
+                  id: "send_too_much",
+                  default: "そうしんが おおすぎ なので、接続をクローズしました！"
+                }));
+                return _context.abrupt("return", 0);
+              case 14:
+                console.log("sleep x ms:", _this.sendData.length, _this.socket.bufferedAmount);
+                _context.next = 17;
+                return new Promise(function (s) {
+                  return setTimeout(s, _this.sendData.length * 5);
+                });
+              case 17:
+                _context.next = 0;
+                break;
+              case 19:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
       // 準備状態
       this.wsockReadyState = function () {
         return _this.socket ? _this.socket.readyState : 0;
@@ -1399,6 +1443,7 @@ var ExtensionBlocks = /*#__PURE__*/function () {
         console.log(error);
       }
     }
+
     /**
      * 送信
      * Send Message.
@@ -1427,34 +1472,34 @@ var ExtensionBlocks = /*#__PURE__*/function () {
   }, {
     key: "webapi_call",
     value: function () {
-      var _webapi_call = _asyncToGenerator( /*#__PURE__*/regenerator.mark(function _callee(args) {
+      var _webapi_call = _asyncToGenerator( /*#__PURE__*/regenerator.mark(function _callee2(args) {
         var url, response, s;
-        return regenerator.wrap(function _callee$(_context) {
+        return regenerator.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                _context.prev = 0;
+                _context2.prev = 0;
                 url = cast.toString(args.URL);
-                _context.next = 4;
+                _context2.next = 4;
                 return fetch(url);
               case 4:
-                response = _context.sent;
-                _context.next = 7;
+                response = _context2.sent;
+                _context2.next = 7;
                 return response.text();
               case 7:
-                s = _context.sent;
-                return _context.abrupt("return", "" + s);
+                s = _context2.sent;
+                return _context2.abrupt("return", "" + s);
               case 11:
-                _context.prev = 11;
-                _context.t0 = _context["catch"](0);
-                console.log(_context.t0);
-                return _context.abrupt("return", "{}");
+                _context2.prev = 11;
+                _context2.t0 = _context2["catch"](0);
+                console.log(_context2.t0);
+                return _context2.abrupt("return", "{}");
               case 15:
               case "end":
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee, null, [[0, 11]]);
+        }, _callee2, null, [[0, 11]]);
       }));
       function webapi_call(_x) {
         return _webapi_call.apply(this, arguments);
