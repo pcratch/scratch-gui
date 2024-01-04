@@ -38,7 +38,7 @@ https://microbit-more.github.io/
 
 ### 変更点
 エクステンション一覧：src/lib/libraries/extensions/index.jsx
-プレインストール：src/lib/libraries/extensions/preinstall/index.js <== microbitmore & websock を追加
+プレインストール：src/lib/libraries/extensions/preinstall/index.js <== microbitMore.mjs & websockExt.mjs を追加
 ### デフォルトプロジェクトのスプライト差替：
 src/lib/default-project/index.js
 src/lib/default-project/project-data.js
